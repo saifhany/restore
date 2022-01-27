@@ -1,6 +1,6 @@
-const jwt = require('jwt');
-const asyncHandler = require('express-async-handler');
-const User = require('../models').User;
+const jwt = require("jsonwebtoken");
+const asyncHandler = require("express-async-handler");
+const User = require("../models").User;
 
 //check token
 exports.protect = asyncHandler(async (req, res, next) => {
@@ -35,6 +35,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
         throw new Error("Not authorized");
     }
 });
+
 exports.admin = (req, res, next) => {
     if (req.user && req.user.isAdmin) {
         next();
