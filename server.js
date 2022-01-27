@@ -43,7 +43,7 @@ const swaggerOptions = {
             contact:{
                 name:"saif"
             },
-            servers:["http://localhost:5000","https://,com"],
+            servers:["http://localhost:5000","https://restaurantsaifhany.herokuapp.com"],
         }
     },
     apis:['./routes/category.js','./routes/client.js','./routes/order.js','./routes/product.js','./routes/table.js','./routes/user.js']
