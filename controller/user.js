@@ -56,7 +56,7 @@ exports.login = asyncHandler(async (req, res) => {
             email: user.email,
             isAdmin: user.isAdmin,
             image: user.image,
-            token: generateToken(user.id),
+            token: generateToken(user.id)
         });
     } else {
         res.status(401);
