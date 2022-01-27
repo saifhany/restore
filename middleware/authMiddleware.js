@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const User = require("../models").User;
-
+const dotenv = require("dotenv");
+dotenv.config();
 //check token
 exports.protect = asyncHandler(async (req, res, next) => {
     let token;
@@ -15,7 +16,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
         try {
             //get the token from header
             //[0] = Bearer , [1] = token
-            token = req.headers.authorization.split(" ")[1];
+            token = req.headers.authorization.split(' ')[1];
             //verify token
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
