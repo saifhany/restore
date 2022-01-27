@@ -1,8 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models").User;
-// const generateToken = require("../utils/generateToken");
+const generateToken = require("../utils/generateToken");
 const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
+
 //@desc     Register a new user
 //@route    POST /api/users
 //@access   Private/admin
@@ -62,6 +63,58 @@ exports.login = asyncHandler(async (req, res) => {
         throw new Error("Invalid email or password");
     }
 });
+
+//@desc     Get user by ID
+//@route    GET /api/users/:id
+//@access   Private/admin
+exports.getUser = asyncHandler(async (req, res) => {
+    const user = await User.findByPk(req.params.id);
+
+    if (user) {
+        res.json(user);
+    } else {
+        res.status(404);
+        throw new Error("User not found");
+    }
+});
+
+//@desc     Get all users
+//@route    GET /api/users
+//@access   Private/admin
+exports.getUsers = asyncHandler(async (req, res) => {
+    //pages constants
+    const pageSize = 5;
+    const page = Number(req.query.pageNumber) || 1;
+    //check for keywords
+    const keyword = req.query.keyword ? req.query.keyword : null;
+
+    let options = {
+        attributes: {
+            exclude: ["updatedAt"],
+        },
+        offset: pageSize * (page - 1),
+        limit: pageSize,
+    };
+
+    if (keyword) {
+        options = {
+            ...options,
+            where: {
+                [Op.or]: [
+                    { id: { [Op.like]: `%${keyword}%` } },
+                    { name: { [Op.like]: `%${keyword}%` } },
+                    { email: { [Op.like]: `%${keyword}%` } },
+                ],
+            },
+        };
+    }
+
+    const count = await User.count({});
+    const users = await User.findAll({});
+
+    res.json({ users, page, pages: Math.ceil(count / pageSize) });
+});
+
 //@desc     Update user
 //@route    PUT /api/users/:id
 //@access   Private/admin
@@ -116,7 +169,6 @@ exports.updateProfile = asyncHandler(async (req, res) => {
         throw new Error("Invalid Password");
     }
 });
-
 
 //@desc     Delete an user
 //@route    DELETE /api/users/:id
