@@ -1,6 +1,6 @@
-const asyncHandler = require('express-async-handler');
-const Client = require('../models').Client;
-const {Op} = require("sequelize");
+const asyncHandler = require("express-async-handler");
+const Client = require("../models").Client;
+const { Op } = require("sequelize");
 
 //@desc     Create a client
 //@route    POST /api/clients
@@ -53,6 +53,21 @@ exports.getClients = asyncHandler(async (req, res) => {
 
     res.json({ clients, page, pages: Math.ceil(count / pageSize) });
 });
+
+//@desc     Get client by ID
+//@route    GET /api/clients/:id
+//@access   Private/user
+exports.getClient = asyncHandler(async (req, res) => {
+    const client = await Client.findByPk(req.params.id);
+
+    if (client) {
+        res.json(client);
+    } else {
+        res.status(404);
+        throw new Error("Client not found");
+    }
+});
+
 //@desc     Update client
 //@route    PUT /api/clients/:id
 //@access   Private/user
