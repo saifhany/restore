@@ -8,7 +8,7 @@ const {
     getTable,
     updateTable,
     deleteTable,
-} = require("../controllers/table");
+} = require("../controller/table");
 
 // VALIDATORS
 const { tableCreateValidator } = require("../validators/table");

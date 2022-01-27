@@ -10,7 +10,7 @@ const {
     updateOrderDelivery,
     deleteOrder,
     getStatistics,
-} = require("../controllers/order");
+} = require("../controller/order");
 
 // VALIDATORS
 const { runValidation } = require("../validators");

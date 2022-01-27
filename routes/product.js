@@ -7,7 +7,7 @@ const {
     getProduct,
     updateProduct,
     deleteProduct,
-} = require("../controllers/product");
+} = require("../controller/product");
 
 // VALIDATORS
 const { runValidation } = require("../validators");

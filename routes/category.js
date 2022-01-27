@@ -1,5 +1,6 @@
-const express = require('express');
-const router =  express.Router();
+const express = require("express");
+const router = express.Router();
+const { protect } = require("../middleware/authMiddleware");
 const {
     createCategory,
     getCategory,
@@ -9,10 +10,14 @@ const {
     getAllCategories,
 } = require("../controller/category");
 
+// VALIDATORS
+const { categoryCreateValidator } = require("../validators/category");
+const { runValidation } = require("../validators");
+
 //ROUTES
 router
     .route("/")
-    .get(protect, getCategories)
+    .get(protect,getCategories)
     .post(protect, categoryCreateValidator, runValidation, createCategory);
 
 router

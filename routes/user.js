@@ -7,7 +7,7 @@ const {
     deleteUser,
     updateUser,
     updateProfile,
-} = require("../controllers/user");
+} = require("../controller/user");
 const router = express.Router();
 const { protect, admin } = require("../middleware/authMiddleware");
 
@@ -21,7 +21,7 @@ const {
 // ROUTES
 router
     .route("/")
-    .post(protect, admin, userRegisterValidator, runValidation, registerUser)
+    .post( userRegisterValidator, runValidation, registerUser)
     .get(protect, admin, getUsers);
 
 router
